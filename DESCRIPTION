@@ -1,0 +1,23 @@
+Package: brittnu
+Title: Britt's Nu for Dirichlet-Distributed Data
+Version: 0.1.0
+Authors@R: 
+    person(given = "Brian",
+           family = "Britt",
+           role = c("aut", "cre"),
+           email = "bcbritt@ua.edu",
+           comment = c(ORCID = "0000-0002-1521-3258"))
+Description: This function computes the Britt's nu reliability coefficient for
+    data sets composed of multiple Dirichlet-distributed deviates with at least
+    two categories. This is especially useful to assess the reliability of
+    cross-validations of latent Dirichlet allocation.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.0
+Imports: 
+    utils,
+    plyr,
+    topicmodels,
+    stats,
+    methods
