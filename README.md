@@ -89,6 +89,7 @@ install.packages("devtools")
 library(devtools)
 install_github("bcbritt/brittnu")
 library(brittnu)
+install.packages("topicmodels") #Used in this example to generate data
 library(topicmodels)
 data("AssociatedPress")
 set.seed(1797)
@@ -153,7 +154,8 @@ print(reliability_40_wt[[4]]) #Britt's pairwise omnibus nu
 print(reliability_40_wt) #All Britt's nu values for word-topic reliability
 
 #Example 2: Manually inputted data with known concentration parameters
-require(gtools) #Used in this example to generate data
+install.packages("gtools") #Used in this example to generate data
+library(gtools) #Used in this example to generate data
 alpha1 <- c(1,1,1,1,1,1,1,1,1,1)
 alpha2 <- c(2,2,2,2,2,2,2,2,2,2)
 alpha3 <- c(0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1)
