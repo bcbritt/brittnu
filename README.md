@@ -41,7 +41,7 @@ Several other arguments may be provided as well:
 
 - `method`: A string indicating what approach (`"rotational"`) or (`"forward"`) will be used to reorder topics (see Britt, under review); the (`"forward"`) option will be implemented at a later date.
 
-- `different_documents`: A boolean value indicating, if each list element in \code{x} represents the output from an [**topicmodels**::LDA] function call, whether some cross-validation iterations used different sets of documents than others.
+- `different_documents`: A boolean value indicating, if each list element in \code{x} represents the output from a [**topicmodels**::LDA] function call, whether some cross-validation iterations used different sets of documents than others.
 
 - `pairwise`: A boolean value indicating whether pairwise reliability between individual cross-validation iterations should be computed. If `pairwise=FALSE`, pairwise reliability will be ignored in order to reduce the time and memory complexity of the computation.
 
@@ -64,27 +64,27 @@ The output for the `brittnu` function is a list with the following four elements
 1. Britt's single-distribution nu for joint reliability
    - This is formatted as a vector whose length is equal to the number of Dirichlet distributions being evaluated (e.g., when computing word-topic reliability for LDA results, the vector's length is the number of topics).
    - Each element of the vector is Britt's single-distribution nu for the corresponding distribution, evaluated using all cross-validation iterations.
-   - For instance, if your results are saved as an object called `reliability`, then reliability[[1]] is the vector representing Britt's joint single-distribution nu for all cross-validation iterations.
+   - For instance, if your results are saved as an object called `reliability`, then `reliability[[1]]` is the vector representing Britt's joint single-distribution nu for all cross-validation iterations.
 2. Britt's single-distribution nu for pairwise reliability
    - This is formatted as a list of lists, each of which contains a vector whose length is equal to the number of Dirichlet distributions being evaluated.
    - Each element of the vector is Britt's single-distribution nu for the corresponding distribution, evaluated using the specified pair of cross-validation iterations.
    - For instance, if your results are saved as an object called `reliability`, then `reliability[[2]][[5]][[7]]` is the vector representing Britt's pairwise single-distribution nu for the 5th and 7th cross-validation iterations.
-     - Note that, to avoid recording redundant data, reversing the iterations (e.g., `reliability[[2]][[7]][[5]]) will yield a `NULL` result.
+     - Note that, to avoid recording redundant data, reversing the iterations (e.g., `reliability[[2]][[7]][[5]]`) will yield a `NULL` result.
 3. Britt's omnibus (multiple-distribution) nu for joint reliability
    - This is formatted as a numeric value representing Britt's omnibus nu, evaluated using all cross-validation iterations.
-   - For instance, if your results are saved as an object called `reliability`, then reliability[[3]] is the value representing Britt's joint omnibus nu for all cross-validation iterations.
+   - For instance, if your results are saved as an object called `reliability`, then `reliability[[3]]` is the value representing Britt's joint omnibus nu for all cross-validation iterations.
 4. Britt's omnibus (multiple-distribution) nu for pairwise reliability
    - This is formatted as a list of lists, each of which is a numeric value representing Britt's omnibus nu, evaluated for the speciusing all cross-validation iterations.
    - Each element of the vector is Britt's single-distribution nu for the corresponding distribution, evaluated using the specified pair of cross-validation iterations.
    - For instance, if your results are saved as an object called `reliability`, then `reliability[[4]][[5]][[7]]` is the vector representing Britt's pairwise omnibus nu for the 5th and 7th cross-validation iterations.
-     - Note that, to avoid recording redundant data, reversing the iterations (e.g., `reliability[[4]][[7]][[5]]) will yield a `NULL` result.
+     - Note that, to avoid recording redundant data, reversing the iterations (e.g., `reliability[[4]][[7]][[5]]`) will yield a `NULL` result.
 
 
 
 ## Examples
 
 ```r
-#20-fold cross-validation using 40 topics
+#Example 1: LDA 20-fold cross-validation using 40 topics
 install.packages("devtools")
 library(devtools)
 install_github("bcbritt/brittnu")
@@ -151,4 +151,37 @@ print(reliability_40_wt[[2]]) #Britt's pairwise single-distribution nu
 print(reliability_40_wt[[3]]) #Britt's joint omnibus nu
 print(reliability_40_wt[[4]]) #Britt's pairwise omnibus nu
 print(reliability_40_wt) #All Britt's nu values for word-topic reliability
+
+#Example 2: Manually inputted data with known concentration parameters
+require(gtools) #Used in this example to generate data
+alpha1 <- c(1,1,1,1,1,1,1,1,1,1)
+alpha2 <- c(2,2,2,2,2,2,2,2,2,2)
+alpha3 <- c(0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1)
+set.seed(2001)
+data_with_known_alpha1 <- rbind(gtools::rdirichlet(1,alpha1),
+                                gtools::rdirichlet(1,alpha2),
+                                gtools::rdirichlet(1,alpha3))
+set.seed(2002)
+data_with_known_alpha2 <- rbind(gtools::rdirichlet(1,alpha1),
+                                gtools::rdirichlet(1,alpha2),
+                                gtools::rdirichlet(1,alpha3))
+set.seed(2003)
+data_with_known_alpha3 <- rbind(gtools::rdirichlet(1,alpha1),
+                                gtools::rdirichlet(1,alpha2),
+                                gtools::rdirichlet(1,alpha3))
+set.seed(2004)
+data_with_known_alpha4 <- rbind(gtools::rdirichlet(1,alpha1),
+                                gtools::rdirichlet(1,alpha2),
+                                gtools::rdirichlet(1,alpha3))
+set.seed(2005)
+data_with_known_alpha5 <- rbind(gtools::rdirichlet(1,alpha1),
+                                gtools::rdirichlet(1,alpha2),
+                                gtools::rdirichlet(1,alpha3))
+data_with_known_alpha <- list(data_with_known_alpha1, data_with_known_alpha2,
+                              data_with_known_alpha3, data_with_known_alpha4,
+                              data_with_known_alpha5)
+set.seed(2006)
+brittnu(data_with_known_alpha,
+        alpha=list(c(1,1,1,1,1,1,1,1,1,1), c(2,2,2,2,2,2,2,2,2,2),
+                   c(0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1)))
 ```
