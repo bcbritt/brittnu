@@ -203,6 +203,7 @@
 #'   Britt, B. C. (under review). An interrater reliability coefficient for
 #'   beta-distributed and Dirichlet-distributed data.
 #' @examples
+#' #Example 1: LDA results
 #' require(topicmodels)
 #' data("AssociatedPress")
 #' set.seed(1797)
@@ -273,6 +274,38 @@
 #' print(reliability_40_wt[[4]])
 #' #All Britt's nu values for word-topic reliability
 #' print(reliability_40_wt)
+#' #Example 2: Manually inputted data with known concentration parameters
+#' require(gtools)
+#' alpha1 <- c(1,1,1,1,1,1,1,1,1,1)
+#' alpha2 <- c(2,2,2,2,2,2,2,2,2,2)
+#' alpha3 <- c(0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1)
+#' set.seed(2001)
+#' data_with_known_alpha1 <- rbind(gtools::rdirichlet(1,alpha1),
+#'                                 gtools::rdirichlet(1,alpha2),
+#'                                 gtools::rdirichlet(1,alpha3))
+#' set.seed(2002)
+#' data_with_known_alpha2 <- rbind(gtools::rdirichlet(1,alpha1),
+#'                                 gtools::rdirichlet(1,alpha2),
+#'                                 gtools::rdirichlet(1,alpha3))
+#' set.seed(2003)
+#' data_with_known_alpha3 <- rbind(gtools::rdirichlet(1,alpha1),
+#'                                 gtools::rdirichlet(1,alpha2),
+#'                                 gtools::rdirichlet(1,alpha3))
+#' set.seed(2004)
+#' data_with_known_alpha4 <- rbind(gtools::rdirichlet(1,alpha1),
+#'                                 gtools::rdirichlet(1,alpha2),
+#'                                 gtools::rdirichlet(1,alpha3))
+#' set.seed(2005)
+#' data_with_known_alpha5 <- rbind(gtools::rdirichlet(1,alpha1),
+#'                                 gtools::rdirichlet(1,alpha2),
+#'                                 gtools::rdirichlet(1,alpha3))
+#' data_with_known_alpha <- list(data_with_known_alpha1, data_with_known_alpha2,
+#'                               data_with_known_alpha3, data_with_known_alpha4,
+#'                               data_with_known_alpha5)
+#' set.seed(2006)
+#' brittnu(data_with_known_alpha,
+#'         alpha=list(c(1,1,1,1,1,1,1,1,1,1), c(2,2,2,2,2,2,2,2,2,2),
+#'                    c(0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1)))
 #' @export
 #' brittnu
 
@@ -280,7 +313,7 @@ brittnu <- function(x, type=NA, alpha=NA,
                     estimate_pairwise_alpha_from_joint=TRUE,
                     symmetric_alpha=FALSE, shuffle=FALSE, method="rotational",
                     different_documents=FALSE, pairwise=TRUE, samples=1000,
-                    lower_bound=FALSE, convcrit=0.00001,  maxit=1000,
+                    lower_bound=FALSE, convcrit=0.00001, maxit=1000,
                     verbose=FALSE, zero=(10^(-16)), zero2=(10^(-255))) {
    raw_alpha <- NA
    if(!is.na(type)) {
@@ -666,8 +699,9 @@ method='rotational' instead.", call.=FALSE)
 #' @export
 #' generate_dirichlet_deviate_diffs
 
-generate_dirichlet_deviate_diffs <- function(x, samples, zero2=(10^(-255))) {
-   return(sum((rdirichlet(x, samples, zero2)-rdirichlet(x, samples, zero2))^2))
+generate_dirichlet_deviate_diffs <- function(samples, x, zero2=(10^(-255))) {
+   return(sum((rdirichlet(n=samples, alpha=x, zero2) -
+               rdirichlet(n=samples, alpha=x, zero2))^2))
 }
 
 #' Estimate Shuffled Single Expectation
@@ -741,10 +775,12 @@ estimate_shuffled_single_expectation <- function(joint_alpha, pairwise_alpha,
                           length(joint_alpha)))
             utils::flush.console()
          }
-         single_joint_expectation[i] <- sum((rdirichlet(joint_alpha[[i]],
-                                                        samples, zero2) - 
-                                             rdirichlet(joint_alpha[[i]],
-                                                        samples, zero2))^2)
+         single_joint_expectation[i] <- sum((rdirichlet(n=samples,
+                                                        alpha=joint_alpha[[i]],
+                                                        zero2=zero2) - 
+                                             rdirichlet(n=samples,
+                                                        alpha=joint_alpha[[i]],
+                                                        zero2=zero2))^2)
       }
       single_joint_expectation <- single_joint_expectation / samples
       if(pairwise) {
@@ -792,7 +828,8 @@ estimate_shuffled_single_expectation <- function(joint_alpha, pairwise_alpha,
       for(i in 1:samples) {
          joint_data <- vector("list",num_iter)
          for(j in 1:num_iter) {
-            joint_data[[j]] <- rdirichlet(joint_alpha[[1]], 1, zero2)
+            joint_data[[j]] <- rdirichlet(n=1, samples=joint_alpha[[1]],
+                                          zero2=zero2)
             if(verbose) {
                message(paste("Preparing 'joint_alpha': Sample " , i, " of ",
                              samples, ", Category ", j, " of " , num_iter,
@@ -801,7 +838,8 @@ estimate_shuffled_single_expectation <- function(joint_alpha, pairwise_alpha,
             }
             for(k in 2:length(joint_alpha)) {
                joint_data[[j]] <- rbind(joint_data[[j]],
-                                        rdirichlet(joint_alpha[[k]], 1, zero2))
+                                        rdirichlet(n=1, alpha=joint_alpha[[k]],
+                                                   zero2=zero2))
             }
          }
          shuffled_joint_data <- shuffle_distributions(joint_data, method,
@@ -1307,11 +1345,11 @@ dirichlet.mle <- function(x, weights=NULL, eps=10^(-5), convcrit=.00001,
    N <- nrow(x)
    K <- ncol(x)
    # compute log pbar
-   x <- (x+eps)/(1+2*eps)
-   x <- x/rowSums(x)
+   x <- ( x+eps ) / ( 1 + 2*eps )
+   x <- x / rowSums(x)
    N <- nrow(x)
-   if (is.null(weights)){
-      weights <- rep(1,(N*K))
+   if ( is.null(weights) ) {
+      weights <- rep(1,N)
    }
    weights <- N*weights/sum(weights)
    log.pbar <- colMeans(weights*log(x))
@@ -1519,7 +1557,7 @@ sirt_digamma1 <- function(x, h=1e-3)
 #' @export
 #' symmetric.dirichlet.mle
 
-rdirichlet <- function(alpha, n, zero2=(10^(-255))) #Based on sirt::rdirichlet
+rdirichlet <- function(n, alpha, zero2=(10^(-255))) #Based on gtools::rdirichlet
 ## generate n random deviates from the Dirichlet function with shape
 ## parameters alpha
 {

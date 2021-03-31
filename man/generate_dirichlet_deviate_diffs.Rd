@@ -4,13 +4,13 @@
 \alias{generate_dirichlet_deviate_diffs}
 \title{Generate Squared Dirichlet Deviate Differences}
 \usage{
-generate_dirichlet_deviate_diffs(x, samples, zero2 = (10^(-255)))
+generate_dirichlet_deviate_diffs(samples, x, zero2 = (10^(-255)))
 }
 \arguments{
-\item{x}{The concentration parameters used to generate Dirichlet deviates}
-
 \item{samples}{An integer value indicating how many samples to use to
 compute the sum of squared differences}
+
+\item{x}{The concentration parameters used to generate Dirichlet deviates}
 
 \item{zero2}{A numeric value; in order to prevent errors when generating
 Dirichlet deviates, any concentration parameters that are less than

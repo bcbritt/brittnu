@@ -4,14 +4,14 @@
 \alias{rdirichlet}
 \title{RDirichlet}
 \usage{
-rdirichlet(alpha, n, zero2 = (10^(-255)))
+rdirichlet(n, alpha, zero2 = (10^(-255)))
 }
 \arguments{
-\item{alpha}{A numeric vector indicating the concentration parameters of the
-Dirichlet distribution from which deviates should be generated}
-
 \item{n}{A numeric value indicating the number of Dirichlet deviates to be
 generated}
+
+\item{alpha}{A numeric vector indicating the concentration parameters of the
+Dirichlet distribution from which deviates should be generated}
 
 \item{zero2}{A numeric value representing the minimum allocation permitted
 for any given Dirichlet category in order to prevent errors}

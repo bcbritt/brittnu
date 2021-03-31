@@ -70,7 +70,7 @@ from multiple \code{\link[topicmodels]{LDA}} function calls}
 the \code{"forward"} method will be implemented at a later date}
 
 \item{different_documents}{A boolean value indicating, if each list element
-in \code{x} represents the output from a \code{\link[topicmodels]{LDA}}
+in \code{x} represents the output from an \code{\link[topicmodels]{LDA}}
 function call, whether some cross-validation iterations used different
 sets of documents than others}
 
@@ -245,6 +245,7 @@ the computation is proceeding as expected.
 }
 
 \examples{
+#Example 1: LDA results
 require(topicmodels)
 data("AssociatedPress")
 set.seed(1797)
@@ -315,4 +316,36 @@ print(reliability_40_wt[[3]])
 print(reliability_40_wt[[4]])
 #All Britt's nu values for word-topic reliability
 print(reliability_40_wt)
+#Example 2: Manually inputted data with known concentration parameters
+require(gtools)
+alpha1 <- c(1,1,1,1,1,1,1,1,1,1)
+alpha2 <- c(2,2,2,2,2,2,2,2,2,2)
+alpha3 <- c(0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1)
+set.seed(2001)
+data_with_known_alpha1 <- rbind(gtools::rdirichlet(1,alpha1),
+                                gtools::rdirichlet(1,alpha2),
+                                gtools::rdirichlet(1,alpha3))
+set.seed(2002)
+data_with_known_alpha2 <- rbind(gtools::rdirichlet(1,alpha1),
+                                gtools::rdirichlet(1,alpha2),
+                                gtools::rdirichlet(1,alpha3))
+set.seed(2003)
+data_with_known_alpha3 <- rbind(gtools::rdirichlet(1,alpha1),
+                                gtools::rdirichlet(1,alpha2),
+                                gtools::rdirichlet(1,alpha3))
+set.seed(2004)
+data_with_known_alpha4 <- rbind(gtools::rdirichlet(1,alpha1),
+                                gtools::rdirichlet(1,alpha2),
+                                gtools::rdirichlet(1,alpha3))
+set.seed(2005)
+data_with_known_alpha5 <- rbind(gtools::rdirichlet(1,alpha1),
+                                gtools::rdirichlet(1,alpha2),
+                                gtools::rdirichlet(1,alpha3))
+data_with_known_alpha <- list(data_with_known_alpha1, data_with_known_alpha2,
+                              data_with_known_alpha3, data_with_known_alpha4,
+                              data_with_known_alpha5)
+set.seed(2006)
+brittnu(data_with_known_alpha,
+        alpha=list(c(1,1,1,1,1,1,1,1,1,1), c(2,2,2,2,2,2,2,2,2,2),
+                   c(0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1)))
 }
