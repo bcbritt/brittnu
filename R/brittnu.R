@@ -199,6 +199,7 @@
 #' @importFrom "stats" "rgamma"
 #' @importFrom "methods" "slot"
 #' @importFrom "plyr" "rbind.fill.matrix"
+#' @importFrom "topicmodels" "LDA"
 #' @section References:
 #'   Britt, B. C. (under review). An interrater reliability coefficient for
 #'   beta-distributed and Dirichlet-distributed data.
