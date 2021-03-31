@@ -829,7 +829,7 @@ estimate_shuffled_single_expectation <- function(joint_alpha, pairwise_alpha,
       for(i in 1:samples) {
          joint_data <- vector("list",num_iter)
          for(j in 1:num_iter) {
-            joint_data[[j]] <- rdirichlet(n=1, samples=joint_alpha[[1]],
+            joint_data[[j]] <- rdirichlet(n=1, alpha=joint_alpha[[1]],
                                           zero2=zero2)
             if(verbose) {
                message(paste("Preparing 'joint_alpha': Sample " , i, " of ",
