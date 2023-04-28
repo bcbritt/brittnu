@@ -27,7 +27,7 @@ Both Britt's nu and Euclidean Krippendorff's alpha allow the computation of up t
 - Omnibus (all raters) reliability for a single observation*
 - Omnibus (all raters) reliability for all observations
 
-*Euclidean Krippendorff's alpha may only be computed for a single observation, such as the allocations of words in a corpus to a single topic, using bootstrapping. Britt's nu may be computed for all four of the above combinations regardless of whether or not bootstrapping is used.
+*By default, Euclidean Krippendorff's alpha computes reliability for the complete set of all observations, not individual observations, such as the allocations of words to a single topic. Euclidean Krippendorff's alpha may only be computed for a single observation when bootstrapping is used. Britt's nu may be computed for all four of the above combinations regardless of whether or not bootstrapping is used.
 
 Each of these statistics is constructed using similar underlying logic as other interrater reliability coefficients.
 
