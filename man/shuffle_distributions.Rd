@@ -4,26 +4,47 @@
 \alias{shuffle_distributions}
 \title{Shuffle Distributions}
 \usage{
-shuffle_distributions(x, method = "rotational", verbose = FALSE)
+shuffle_distributions(
+  x,
+  verbose = FALSE,
+  shuffle_method = "rotational",
+  clustering_method = "average",
+  slow_clustering = FALSE,
+  shuffle_dimension = "rows"
+)
 }
 \arguments{
-\item{x}{A list with each entry being a single cross-validation iteration;
-each list entry should be either the output from a
-\code{\link[topicmodels]{LDA}} function call or a 2D double vector with
-distributions as the rows and each category within each distribution as the
-columns (such that each row in the vector sums to 1)}
+\item{x}{A list such that each element is a 2D double vector with
+observations as the rows and each category within each observation as the
+columns}
 
-\item{method}{A string indicating what method (\code{"rotational"} or
-\code{"forward"}) will be used to reorder topics (see Britt, under review);
-the \code{"forward"} method will be implemented at a later date}
+\item{verbose}{A boolean value indicating whether to provide progress updates}
 
-\item{verbose}{A boolean value indicating whether progress updates should be
-provided}
+\item{shuffle_method}{A string indicating what method (\code{"rotational"},
+\code{"agglomerative"}, or \code{"divisive"}) will be used to reorder
+topics}
+
+\item{clustering_method}{A string indicating the criterion that will be used
+to merge or divide clusters if \code{shuffle_method=="agglomerative"} or
+\code{shuffle_method=="divisive"}; permitted values are \code{"average"},
+\code{"minimum"}, \code{"maximum"}, \code{"median"}, \code{"centroid"}, and
+\code{"wald"}}
+
+\item{slow_clustering}{A boolean value indicating whether the distances
+between clusters should be recalculated after each individual observation
+is added to the new cluster (\code{TRUE}), which can improve the
+cohesiveness of the resulting cluster, or whether all observations should
+be added to the new cluster without recomputing the distances between
+clusters after every addition (\code{FALSE}); this argument only has an
+effect if \code{shuffle_method=="divisive"}}
+
+\item{shuffle_dimension}{A string indicating whether \code{"rows"} or
+\code{"columns"} should be reordered}
 }
 \value{
 A two-element list containing the reordered data set and a matrix
-  indicating the relationship between each reordered category and its orginal
-  position in the data
+  indicating the relationship between each reordered topic and its original
+  position in the data, respectively
 }
 \description{
 This helper function reorders the categories in multiple

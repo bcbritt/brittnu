@@ -2,27 +2,27 @@
 % Please edit documentation in R/brittnu.R
 \name{rdirichlet}
 \alias{rdirichlet}
-\title{RDirichlet}
+\title{Generate Dirichlet Observations}
 \usage{
 rdirichlet(n, alpha, zero2 = (10^(-255)))
 }
 \arguments{
-\item{n}{A numeric value indicating the number of Dirichlet deviates to be
+\item{n}{A numeric value indicating the number of observations to be
 generated}
 
 \item{alpha}{A numeric vector indicating the concentration parameters of the
-Dirichlet distribution from which deviates should be generated}
+Dirichlet distribution from which observations should be generated}
 
 \item{zero2}{A numeric value representing the minimum allocation permitted
 for any given Dirichlet category in order to prevent errors}
 }
 \value{
-A numeric vector with \code{n} Dirichlet deviates
+A numeric vector with \code{n} Dirichlet observations
 }
 \description{
-This helper function generates a set of deviates from a
+This helper function generates a set of observations from a
   Dirichlet distribution with underlying concentration parameters equal to
   \code{alpha}. This function is heavily based on
-  \code{\link[sirt]{rdirichlet}}, with modifications to prevent concentration
+  \code{\link[gtools]{rdirichlet}}, with modifications to prevent concentration
   parameters equal to 0.
 }

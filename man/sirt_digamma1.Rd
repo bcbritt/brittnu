@@ -19,6 +19,8 @@ A list of the estimated concentration parameters, the sum of those
 \description{
 This helper function estimates the derivative of the digamma
   function. This function is directly drawn from
-  \code{\link[sirt]{sirt_digamma1}}, as published at
-  \url{https://github.com/cran/sirt/blob/master/R/sirt_digamma1.R}.
+  \code{sirt::sirt_digamma1}, as published at
+  \url{https://github.com/cran/sirt/blob/master/R/sirt_digamma1.R}. This
+  function does not appear to be included in current releases of \code{sirt}
+  and therefore cannot be directly loaded from that package.
 }

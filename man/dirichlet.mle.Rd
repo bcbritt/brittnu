@@ -2,7 +2,7 @@
 % Please edit documentation in R/brittnu.R
 \name{dirichlet.mle}
 \alias{dirichlet.mle}
-\title{Dirichlet.MLE}
+\title{Estimate Concentration Parameters}
 \usage{
 dirichlet.mle(
   x,
@@ -11,15 +11,13 @@ dirichlet.mle(
   convcrit = 1e-05,
   maxit = 1000,
   oldfac = 0.3,
-  verbose = FALSE
+  progress = FALSE
 )
 }
 \arguments{
-\item{x}{A list with each entry being a single cross-validation iteration;
-each list entry should be either the output from a
-\code{\link[topicmodels]{LDA}} function call or a 2D double vector with
-distributions as the rows and each category within each distribution as the
-columns (such that each row in the vector sums to 1)}
+\item{x}{A list such that each element is a 2D double vector with
+observations as the rows and each category within each observation as the
+columns}
 
 \item{weights}{A numeric vector used to calibrate the initial estimates of
 concentration parameters}
@@ -36,7 +34,7 @@ to estimate concentration parameters}
 \item{oldfac}{A numeric value between 0 and 1 used as the convergence
 acceleration factor}
 
-\item{verbose}{A boolean value indicating whether progress updates should be
+\item{progress}{A boolean value indicating whether progress updates should be
 provided}
 }
 \value{
@@ -46,7 +44,7 @@ A list of the estimated concentration parameters, the sum of those
 }
 \description{
 This helper function estimates the concentration parameters of
-  the Dirichlet distribution underlying multiple deviates, with no
+  the Dirichlet distribution underlying multiple observations, with no
   restrictions placed on the values of those concentration parameters. This
   function is heavily based on \code{\link[sirt]{dirichlet.mle}}, with
   modifications to avoid potential singularities in the estimation procedure.

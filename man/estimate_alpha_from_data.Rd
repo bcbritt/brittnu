@@ -11,32 +11,30 @@ estimate_alpha_from_data(
   symmetric_alpha = FALSE,
   convcrit = 1e-05,
   maxit = 1000,
-  verbose = FALSE
+  progress = FALSE
 )
 }
 \arguments{
-\item{x}{A list with each entry being a single cross-validation iteration;
-each list entry should be either the output from a
-\code{\link[topicmodels]{LDA}} function call or a 2D double vector with
-distributions as the rows and each category within each distribution as the
-columns (such that each row in the vector sums to 1)}
+\item{x}{A list such that each element is a 2D double vector with
+observations as the rows and each category within each observation as the
+columns}
 
-\item{pairwise}{A boolean value indicating whether pairwise reliability
-between individual cross-validation iterations should be computed; if
-\code{FALSE}, pairwise reliability will be ignored in order to reduce the
-time and memory complexity of the computation}
+\item{pairwise}{A boolean value indicating whether pairwise differences
+between individual raters should be computed; if \code{FALSE}, pairwise
+differences will be ignored in order to reduce the time and memory
+complexity of the computation}
 
 \item{estimate_pairwise_alpha_from_joint}{A boolean value indicating, when
-estimating reliability for pairs of cross-validation iterations, whether
-each pair of iterations should use the concentration parameters estimated
-across all iterations (\code{TRUE}) or whether separate sets of
-concentration parameters should be estimated for each pair of
-cross-validation iterations (\code{FALSE}); it is strongly suggested that
-the default value of \code{TRUE} be used for this parameter}
+estimating reliability for pairs of raters, whether each pair of raters
+should use the concentration parameters estimated across all raters
+(\code{TRUE}) or whether separate sets of concentration parameters should
+be estimated for each pair of raters (\code{FALSE}); this argument only has
+an effect when \code{alpha==NA}, and it is strongly suggested that the
+default value of \code{TRUE} be used for this argument when possible}
 
-\item{symmetric_alpha}{A boolean value indicating whether all concentration
-parameters in each cross-validation iteration should be assumed to be
-equal, which is common in LDA}
+\item{symmetric_alpha}{A boolean value indicating whether concentration
+parameters should be assumed to be unchanged between observations, which is
+common in many topic modeling procedures}
 
 \item{convcrit}{A numeric value indicating the threshold for convergence used
 to estimate concentration parameters}
@@ -44,15 +42,14 @@ to estimate concentration parameters}
 \item{maxit}{A numeric value indicating the maximum number of iterations used
 to estimate concentration parameters}
 
-\item{verbose}{A boolean value indicating whether progress updates should be
-provided}
+\item{progress}{A boolean value indicating whether to provide progress
+updates}
 }
 \value{
 A two-element list indicating the estimated concentration parameters
-  for all concentration parameters and for each pair of cross-validation
-  iterations, respectively
+  for all raters and for each pair of raters, respectively
 }
 \description{
 This helper function estimates the expected concentration
-  parameters of the Dirichlet distribution underlying multiple deviates.
+  parameters of the Dirichlet distribution underlying multiple observations.
 }

@@ -1,23 +1,26 @@
 Package: brittnu
-Title: Britt's Nu for Dirichlet-Distributed Data
-Version: 0.1.0
+Title: Britt's Nu and Euclidean Krippendorff's Alpha
+Version: 0.2.0
 Authors@R: 
     person(given = "Brian",
            family = "Britt",
            role = c("aut", "cre"),
            email = "bcbritt@ua.edu",
            comment = c(ORCID = "0000-0002-1521-3258"))
-Description: This function computes the Britt's nu reliability coefficient for
-    data sets composed of multiple Dirichlet-distributed deviates with at least
-    two categories. This is especially useful to assess the reliability of
-    cross-validations of latent Dirichlet allocation.
+Description: This package computes two reliability coefficients. Britt's
+    nu is used to assess reliability for data sets composed of multiple
+    Dirichlet-distributed samples. Euclidean Krippendorff's alpha is used
+    to assess reliability for Euclidean and compositional data that do not
+    necessarily adhere to a Dirichlet distribution. These measures are
+    especially useful for the cross-validation of topic models.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.0
 Imports: 
     utils,
+    stats,
+    methods,
     plyr,
     topicmodels,
-    stats,
-    methods
+    gtools
