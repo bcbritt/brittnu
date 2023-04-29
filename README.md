@@ -10,7 +10,7 @@ To use this package, first install and load it in R with
 ```r
 install.packages("devtools")
 library(devtools)
-install_github("bcbritt/brittnu")
+install_github("bcbritt/brittnu@main")
 library("brittnu")
 ```
 
